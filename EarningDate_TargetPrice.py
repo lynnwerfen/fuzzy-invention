@@ -5,7 +5,9 @@ from datetime import datetime
 
 from flask import Flask
 app = Flask(__name__)  # This MUST be outside any 'if' or function
+#@app.route('/')
 
+@app.route('/stock')
 def get_stock_details():
     TICKER_FILE = "tickers.txt"
     results = []
@@ -59,8 +61,10 @@ def get_stock_details():
     if results:
         df = pd.DataFrame(results)
         print("\n--- Stock Data Summary ---")
-        print(df.to_markdown(index=False))
+        #print(df.to_markdown(index=False))
+        markdown_table = df.to_markdown(index=False)
 
+        return f"<pre>{markdown_table}</pre>"
 
 # Example usage
 #ticker = input("Enter stock ticker: ")

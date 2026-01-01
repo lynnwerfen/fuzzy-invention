@@ -3,6 +3,9 @@ import sys
 import pandas as pd
 from datetime import datetime
 
+from flask import Flask
+app = Flask(__name__)  # This MUST be outside any 'if' or function
+
 def get_stock_details():
     TICKER_FILE = "tickers.txt"
     results = []

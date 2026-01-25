@@ -97,13 +97,13 @@ def get_stock_details():
         ])
 
         #for command line - local testing
-        print("\n--- Stock Data Summary ---")
+        #print("\n--- Stock Data Summary ---")
         #print(df.to_markdown(index=False))
         #print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # 'psql' includes full row borders
 
         #for web app - deploy version
         #markdown_table = df.to_markdown(index=False)
-        markdown_table = tabulate(df, headers='keys', tablefmt='psql', showindex=False)
+        markdown_table = tabulate(df, headers='keys', tablefmt='html', showindex=False)
         return f"<pre>{markdown_table}</pre>"
 
 # Example usage

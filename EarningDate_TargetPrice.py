@@ -88,22 +88,15 @@ def get_stock_details():
     # Create and display a Pandas DataFrame
     if results:
         df = pd.DataFrame(results)
-        df.style.set_properties(**{'text-align':'right !important'})
-        df.style.set_properties(subset=['Ticker'], **{'text-align':'left'})
-
-        # Apply a thin solid line below every row
-        df.style.set_table_styles([
-            {'selector': 'tr', 'props': [('border-bottom', '1px solid black')]}
-        ])
 
         #for command line - local testing
         #print("\n--- Stock Data Summary ---")
-        #print(df.to_markdown(index=False))
-        #print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # 'psql' includes full row borders
+        ##print(df.to_markdown(index=False))
+        #print(tabulate(df, headers='keys', tablefmt='fancy_grid', stralign='right', showindex=False))  # 'psql' includes full row borders
 
         #for web app - deploy version
         #markdown_table = df.to_markdown(index=False)
-        markdown_table = tabulate(df, headers='keys', tablefmt='html', showindex=False)
+        markdown_table = tabulate(results, headers='keys', tablefmt='fancy_grid', stralign='right', showindex=False)
         return f"<pre>{markdown_table}</pre>"
 
 # Example usage

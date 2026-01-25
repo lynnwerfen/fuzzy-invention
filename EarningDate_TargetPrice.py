@@ -2,6 +2,7 @@ import yfinance as yf
 import sys
 import pandas as pd
 from datetime import datetime
+from tabulate import tabulate
 
 from flask import Flask
 app = Flask(__name__)  # This MUST be outside any 'if' or function
@@ -90,13 +91,19 @@ def get_stock_details():
         df.style.set_properties(**{'text-align':'right !important'})
         df.style.set_properties(subset=['Ticker'], **{'text-align':'left'})
 
+        # Apply a thin solid line below every row
+        df.style.set_table_styles([
+            {'selector': 'tr', 'props': [('border-bottom', '1px solid black')]}
+        ])
+
         #for command line - local testing
-        #print("\n--- Stock Data Summary ---")
+        print("\n--- Stock Data Summary ---")
         #print(df.to_markdown(index=False))
+        print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # 'psql' includes full row borders
 
         #for web app - deploy version
-        markdown_table = df.to_markdown(index=False)
-        return f"<pre>{markdown_table}</pre>"
+        #markdown_table = df.to_markdown(index=False)
+        #return f"<pre>{markdown_table}</pre>"
 
 # Example usage
 #ticker = input("Enter stock ticker: ")

@@ -9,15 +9,15 @@ app = Flask(__name__)  # This MUST be outside any 'if' or function
 
 @app.route('/stock')
 def get_stock_details():
-    TICKER_FILE = "tickers.txt"
+    ticker_file = "tickers.txt"
     results = []
 
-    print(f"Fetching data for tickers in {TICKER_FILE}...")
+    print(f"Fetching data for tickers in {ticker_file}...")
     try:
-        with open(TICKER_FILE, 'r') as f:
+        with open(ticker_file, 'r') as f:
             tickers = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
-        print(f"Error: {TICKER_FILE} not found.")
+        print(f"Error: {ticker_file} not found.")
         sys.exit(1)
 
     for ticker_symbol in tickers:
@@ -62,12 +62,12 @@ def get_stock_details():
 
             results.append({
                 'Ticker': ticker_symbol,
-                'Current Price': current_price,
                 'Market Cap': market_cap,
-                'Fulltime Employees': employee_num,
+                'Employees': employee_num,
                 'Dividend': dividend_yield,
                 'Exdividend Date': exdividend_date,
                 'Next Earnings Date': earnings_date,
+                'Current Price': current_price,
                 'Mean Target Price': target_price
             })
 
@@ -75,19 +75,21 @@ def get_stock_details():
             print(f"Error fetching data for {ticker_symbol}: {e}")
             results.append({
                 'Ticker': ticker_symbol,
-                'Current Price': current_price,
                 'Market Cap': market_cap,
-                'Fulltime Employees': employee_num,
+                'Employees': employee_num,
                 'Dividend': dividend_yield,
                 'Exdividend Date': exdividend_date,
                 'Next Earnings Date': earnings_date,
+                'Current Price': current_price,
                 'Mean Target Price': target_price
             })
 
     # Create and display a Pandas DataFrame
     if results:
         df = pd.DataFrame(results)
-        
+        df.style.set_properties(**{'text-align':'right !important'})
+        df.style.set_properties(subset=['Ticker'], **{'text-align':'left'})
+
         #for command line - local testing
         #print("\n--- Stock Data Summary ---")
         #print(df.to_markdown(index=False))
